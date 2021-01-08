@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PlayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', PlayController::class);
+
+Route::prefix('login')->group(function () {
+    Route::get('/{driver}', [LoginController::class, 'redirectToProvider'])->name('login');
+    Route::get('/{driver}/callback', [LoginController::class, 'handleProviderCallback']);
 });
+
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
