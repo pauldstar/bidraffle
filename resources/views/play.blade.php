@@ -5,6 +5,5 @@
 @endsection
 
 @section('content')
-    @include('partials.header')
 {{--    @livewire('play')--}}
 @endsection
