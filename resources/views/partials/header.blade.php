@@ -1,27 +1,28 @@
-<div class="text-white p-3">
-    <div class="container d-flex h5">
+<div class="lobster-font border-bottom py-3">
+    <div class="container d-flex align-items-center">
         <x-logo></x-logo>
 
-        @if(auth()->guest())
-            <p
-                title="Save Ad Credits"
-                role="button"
-                data-bs-toggle="modal"
-                data-bs-target="#modal--login"
-            >Login</p>
-        @else
-            <a
-                id="p-username"
-                class="text-decoration-none text-white"
-                tabindex="0"
-                role="button"
-                data-href="{{ route('logout') }}"
-                data-toggle="popover"
-                data-trigger="focus"
-                data-placement="bottom"
-                data-content="Click again to logout"
-            >{{ auth()->user()->name }}</a>
-        @endif
+        <div class="ms-auto">
+            @if(auth()->guest())
+                <h4
+                    role="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal--login"
+                >Login</h4>
+            @else
+                <a
+                    id="p-username"
+                    class="text-decoration-none h4 text-dark"
+                    tabindex="0"
+                    role="button"
+                    data-href="{{ route('logout') }}"
+                    data-toggle="popover"
+                    data-trigger="focus"
+                    data-placement="bottom"
+                    data-content="Click again to logout"
+                >{{ \Illuminate\Support\Str::limit(auth()->user()->name, 15) }}</a>
+            @endif
+        </div>
     </div>
 </div>
 
