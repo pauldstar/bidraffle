@@ -1,26 +1,26 @@
 const Toast = (_ => {
-    let _$toast = document.getElementById('app-toast'),
-        _$toastText = document.getElementById('app-toast-text'),
-        _bsToast = new bootstrap.Toast(_$toast);
+    let $toast = document.getElementById('app-toast'),
+        $toastText = document.getElementById('app-toast-text'),
+        bsToast = new bootstrap.Toast($toast);
 
-    function _show(msg, mode) {
-        _$toast.classList.add('bg-' + mode);
-        _$toastText.innerHTML = msg;
+    function show(msg, mode) {
+        $toast.classList.add('bg-' + mode);
+        $toastText.innerHTML = msg;
 
-        _bsToast.show();
+        bsToast.show();
 
         let removeClass = _ => {
-            _$toast.classList.remove('bg-' + mode);
-            _$toast.removeEventListener('hidden.bs.toast', removeClass);
+            $toast.classList.remove('bg-' + mode);
+            $toast.removeEventListener('hidden.bs.toast', removeClass);
         };
 
-        _$toast.addEventListener('hidden.bs.toast', removeClass);
+        $toast.addEventListener('hidden.bs.toast', removeClass);
     }
 
     return {
-        success: msg => _show(msg, 'success'),
-        error: msg => _show(msg, 'danger'),
-        warning: msg => _show(msg, 'warning'),
-        info: msg => _show(msg, 'info')
+        success: msg => show(msg, 'success'),
+        error: msg => show(msg, 'danger'),
+        warning: msg => show(msg, 'warning'),
+        info: msg => show(msg, 'info')
     };
 })();
