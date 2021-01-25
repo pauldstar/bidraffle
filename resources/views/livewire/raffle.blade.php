@@ -39,7 +39,7 @@
 </section>
 
 @push('body-scripts')
-    <script src="{{ asset('js/timer.js') }}"></script>
+    <script src="{{ asset('js/raffle-timer.js') }}"></script>
     <script src="{{ asset('js/video.js') }}"></script>
 @endpush
 

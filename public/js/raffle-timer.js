@@ -12,7 +12,7 @@ startCountdown();
  */
 
 function tick() {
-    if (!timerLeft) clearInterval(countdown);
+    if (timerLeft <= 0) return void(clearInterval(countdown));
     $timer.innerText = timerFormat();
     timerLeft--;
 }
