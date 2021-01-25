@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory
@@ -19,12 +19,16 @@ class UserFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'balance' => 0
+            'email' => $this->faker->unique()->safeEmail
         ];
+    }
+
+    public function withId(int $id): self
+    {
+        return $this->state(['id' => $id]);
     }
 }
