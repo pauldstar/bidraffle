@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PlayController;
+use App\Http\Controllers\RaffleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', PlayController::class);
+Route::get('{uuid?}', RaffleController::class);
 
 Route::prefix('login')->group(function () {
     Route::get('/{driver}', [LoginController::class, 'redirectToProvider'])->name('login');
