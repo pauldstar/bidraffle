@@ -15,9 +15,11 @@ class CreateRafflesTable extends Migration
     {
         Schema::create('raffles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('bids')->nullable();
+            $table->uuid('uuid');
+            $table->unsignedBigInteger('bids')->default(0);
             $table->foreignId('winner')->nullable()->constrained('users');
             $table->boolean('claimed')->default(false);
+            $table->timestamp('closes_at');
             $table->timestamps();
         });
     }
