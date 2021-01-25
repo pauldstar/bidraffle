@@ -1,6 +1,8 @@
 <div class="lobster-font border-bottom py-3">
     <div class="container d-flex align-items-center">
-        <x-logo></x-logo>
+        <a href="{{ url('/') }}" class="text-dark">
+            <x-logo></x-logo>
+        </a>
 
         <div class="ms-auto">
             @if(auth()->guest())
