@@ -7,7 +7,7 @@
                 data-original-closes-at="{{ $raffle->original_closes_at->timestamp }}"
             >--:--:--</h1>
 
-            <p>$<span id="raffle-pot-amount">0.00</span></p>
+            <h3>$<span id="raffle-pot-amount">0.00</span></h3>
             <p><span id="raffle-bid-count">0</span> Bids</p>
             <p>Last Bidder: <span id="total-bid-count">Paul Ogbeiwi</span></p>
         </div>
@@ -40,7 +40,7 @@
 
 @push('body-scripts')
     <script src="{{ asset('js/raffle-timer.js') }}"></script>
-    <script src="{{ asset('js/video.js') }}"></script>
+    <script src="{{ asset('js/ad-video.js') }}"></script>
 @endpush
 
 @push('styles')
