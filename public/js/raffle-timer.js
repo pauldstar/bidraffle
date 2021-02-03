@@ -5,40 +5,44 @@ let $timer = document.getElementById('raffle-timer'),
 
 let hrs, mins, secs, countdown;
 
-startCountdown();
+if (timerExpired()) setTimer();
+else startCountdown();
 
 /**
  *  FUNCTIONS
  */
 
-function tick() {
-    if (timerLeft <= 0) return void(clearInterval(countdown));
-    $timer.innerText = timerFormat();
-    timerLeft--;
-}
-
 function startCountdown() {
     countdown = setInterval(tick, 1000);
 }
 
-function updateTimer(end) {
-    timerEnd = end;
-    timerLeft = timerEnd - now();
+function tick() {
+    if (timerExpired()) return void (clearInterval(countdown));
+    setTimer();
+    timerLeft--;
+}
+
+function timerExpired() {
+    return timerLeft <= 0;
+}
+
+function setTimer() {
+    $timer.innerText = timerFormat();
 }
 
 function timerFormat() {
-    hrs = Math.floor(timerLeft / 3600);
-    mins = Math.floor((timerLeft - (hrs * 3600)) / 60);
-    secs = timerLeft - (hrs * 3600) - (mins * 60);
+    let left = Math.abs(timerLeft);
 
-    hrs = padZeros(hrs);
-    mins = padZeros(mins);
-    secs = padZeros(secs);
+    hrs = Math.floor(left / 3600);
+    mins = Math.floor((left - (hrs * 3600)) / 60);
+    secs = left - (hrs * 3600) - (mins * 60);
 
-    return hrs + ':' + mins + ':' + secs;
+    let out = pad(hrs) + ':' + pad(mins) + ':' + pad(secs);
+
+    return timerExpired() ? '-' + out : out;
 }
 
-function padZeros(val) {
+function pad(val) {
     return val < 10 ? '0' + val : val;
 }
 
