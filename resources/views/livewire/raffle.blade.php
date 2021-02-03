@@ -3,6 +3,7 @@
         <div class="col-6">
             <h1
                 id="raffle-timer"
+                class="{{ $raffle->original_closes_at->isPast() ? 'text-danger' : 'text-success' }}"
                 data-closes-at="{{ $raffle->closes_at->timestamp }}"
                 data-original-closes-at="{{ $raffle->original_closes_at->timestamp }}"
             >--:--:--</h1>
