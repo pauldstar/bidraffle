@@ -10,7 +10,7 @@ class RaffleController extends Controller
 {
     public function __invoke(string $uuid = null)
     {
-        $mainRaffle = $uuid ? Raffle::find($uuid) : Raffle::currentOrNew();
+        $mainRaffle = $uuid ? Raffle::firstWhere('uuid', $uuid) : Raffle::currentOrNew();
         $data['raffle'] = $mainRaffle;
 
         if (Auth::check()) {
