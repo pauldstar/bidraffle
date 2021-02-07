@@ -17,14 +17,12 @@ function Timer($display, end, extendedEnd) {
 
 Timer.prototype.start = function () {
     let countdown = setInterval(_ => {
-        this.duration--;
+        this.update();
 
         if (this.expired()) {
             this.$display.classList.replace('text-success', 'text-danger');
             clearInterval(countdown);
-        }
-
-        this.update();
+        } else this.duration--;
     }, 1000);
 }
 
