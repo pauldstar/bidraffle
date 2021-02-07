@@ -14,8 +14,7 @@ class RaffleController extends Controller
         $data['raffle'] = $mainRaffle;
 
         if (Auth::check()) {
-            $previousRaffles =
-                Auth::user()->raffles()->whereKeyNot($mainRaffle->id)->get();
+            $previousRaffles = Auth::user()->raffles()->whereKeyNot($mainRaffle->id)->get();
 
             $grouped = $this->raffleGroups($previousRaffles);
             $wonRaffles = $grouped->get('won');
