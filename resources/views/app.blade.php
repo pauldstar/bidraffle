@@ -29,8 +29,8 @@
 
 <x-toast></x-toast>
 
-<script src="{{ asset('js/toast.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/Toast.js') }}"></script>
 
 @livewireScripts
 @stack('body-scripts')
