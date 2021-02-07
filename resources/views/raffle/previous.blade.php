@@ -35,7 +35,7 @@
             </h2>
             <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
                  data-bs-parent="#accordionFlushExample">
-                @if(isset($wonRaffles) && $wonRaffles->isNotEmpty())
+                @if(isset($lostRaffles) && $lostRaffles->isNotEmpty())
                     <div class="accordion-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
                         terry
                         richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
