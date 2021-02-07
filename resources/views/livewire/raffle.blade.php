@@ -40,8 +40,21 @@
 </section>
 
 @push('body-scripts')
-    <script src="{{ asset('js/raffle-timer.js') }}"></script>
+    <script src="{{ asset('js/Raffle.js') }}"></script>
+    <script src="{{ asset('js/Timer.js') }}"></script>
     <script src="{{ asset('js/ad-video.js') }}"></script>
+
+    <script>
+        let $timer = document.getElementById('raffle-timer');
+
+        let timer = new Timer(
+            $timer, $timer.dataset.originalClosesAt, $timer.dataset.closesAt
+        );
+
+        let raffle = new Raffle(timer);
+
+        raffle.run();
+    </script>
 @endpush
 
 @push('styles')
