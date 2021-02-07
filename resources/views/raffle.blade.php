@@ -4,5 +4,5 @@
 
 @section('content')
     @livewire('raffle', ['raffle' => $raffle])
-    @include('raffle.previous')
+    @includeWhen(auth()->check(), 'raffle.previous')
 @endsection
