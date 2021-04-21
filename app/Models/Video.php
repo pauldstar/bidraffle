@@ -19,12 +19,12 @@ class Video extends Model
      *
      * @var int
      */
-    public static int $minPlayTime = 60;
+    public const MIN_PLAY_TIME = 60;
 
     /**
      * Payment (qp) per valid video play
      *
      * @var int
      */
-    public static int $paymentAmount = 25;
+    public const PAYMENT_AMOUNT = 25;
 }
