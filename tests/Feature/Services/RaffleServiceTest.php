@@ -35,7 +35,7 @@ class RaffleServiceTest extends TestCase
             ->wonBy($user, true)
             ->create();
 
-        $raffles = $this->service->usersPrevious();
+        $raffles = $this->service->previous();
 
         $raffles->get('won')->each(
             fn (Raffle $raffle) => $this->assertEquals($user->id, $raffle->winner_id)

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Raffle;
-use Illuminate\Database\Eloquent\Collection;
+use App\Services\RaffleService;
 use Illuminate\Support\Facades\Auth;
 
 class RaffleController extends Controller
@@ -25,17 +25,5 @@ class RaffleController extends Controller
         }
 
         return view('raffle', $data);
-    }
-
-    private function raffleGroups(Collection $raffles): \Illuminate\Support\Collection
-    {
-        $userId = Auth::id();
-
-        return $raffles->mapToGroups(
-            function ($raffle) use ($userId) {
-                $key = $raffle->winner === $userId ? 'won' : 'lost';
-                return [$key => $raffle];
-            }
-        );
     }
 }

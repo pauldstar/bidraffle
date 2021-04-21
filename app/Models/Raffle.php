@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
 
 /**
  * @mixin IdeHelperRaffle
@@ -18,14 +16,6 @@ class Raffle extends Model
     protected $fillable = ['uuid', 'created_at', 'closes_at'];
 
     protected $dates = ['closes_at'];
-
-    public static function currentOrNew()
-    {
-        return self::query()->firstOrCreate(
-            ['created_at' => Carbon::today()],
-            ['uuid' => Str::uuid(), 'closes_at' => Carbon::tomorrow()]
-        );
-    }
 
     public function bidders(): BelongsToMany
     {
