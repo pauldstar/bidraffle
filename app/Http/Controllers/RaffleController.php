@@ -4,24 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Raffle;
 use App\Services\RaffleService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class RaffleController extends Controller
 {
-    public function __invoke(string $uuid = null)
+    public function __invoke(RaffleService $service, string $uuid = null): View
     {
-        $mainRaffle = $uuid ? Raffle::firstWhere('uuid', $uuid) : Raffle::currentOrNew();
-        $data['raffle'] = $mainRaffle;
+        $raffle = $uuid
+            ? Raffle::with('winner:id,name')->firstWhere('uuid', $uuid)
+            : $service->current();
+
+        $data['raffle'] = $raffle;
 
         if (Auth::check()) {
-            $previousRaffles = Auth::user()->raffles()->whereKeyNot($mainRaffle->id)->get();
+            $previousRaffles = $service->previous();
 
-            $grouped = $this->raffleGroups($previousRaffles);
-            $wonRaffles = $grouped->get('won');
-            $lostRaffles = $grouped->get('lost');
-
-            $data['wonRaffles'] = $wonRaffles;
-            $data['lostRaffles'] = $lostRaffles;
+            $data['wonRaffles'] = $previousRaffles->get('won');
+            $data['lostRaffles'] = $previousRaffles->get('lost');
+            $data['hasBid'] = $raffle->bidders->isNotEmpty();
+            $data['isWinning'] = $service->winning($raffle);
         }
 
         return view('raffle', $data);
