@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin IdeHelperRaffle
+ */
 class Raffle extends Model
 {
     use HasFactory;
