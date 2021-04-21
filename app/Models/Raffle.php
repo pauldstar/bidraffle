@@ -25,7 +25,7 @@ class Raffle extends Model
             ->withTimestamps();
     }
 
-    public function winner(): BelongsToMany
+    public function winningBidder(): BelongsToMany
     {
         return $this->bidders()
             ->select('pre_count + post_count AS total_count')
