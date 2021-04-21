@@ -2,17 +2,16 @@
 
 /**
  * @param $display - the DOM element that displays time
- * @param end - the timer's scheduled end time
- * @param extendedEnd - the timer's extended end time
+ * @param scheduledEnd - the timer's initially scheduled end time in seconds
+ * @param actualEnd - the timer's actual/extended end time in seconds
  * @constructor
  */
-function Timer($display, end, extendedEnd) {
+function Timer($display, scheduledEnd, actualEnd) {
     this.$display = $display;
-    this.end = end;
-    this.extendedEnd = extendedEnd;
+    this.end = scheduledEnd;
+    this.duration = actualEnd - this.now();
 
-    this.duration = extendedEnd - this.now();
-    if (this.expired()) this.duration = end - extendedEnd;
+    if (this.expired()) this.duration = scheduledEnd - actualEnd;
 }
 
 Timer.prototype.start = function () {
