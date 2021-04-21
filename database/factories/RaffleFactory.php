@@ -35,10 +35,10 @@ class RaffleFactory extends Factory
             $user = $user->id;
         }
 
-        $arr = ['winner' => $user];
+        $arr = ['winner_id' => $user];
 
         return $this->state($randomise
-            ? new Sequence($arr, ['winner' => null])
+            ? new Sequence($arr, ['winner_id' => null])
             : $arr
         );
     }

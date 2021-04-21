@@ -17,7 +17,7 @@ class CreateRafflesTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->unsignedBigInteger('bids')->default(0);
-            $table->foreignId('winner')->nullable()->constrained('users');
+            $table->foreignId('winner_id')->nullable()->constrained('users')->nullOnDelete();
             $table->boolean('claimed')->default(false);
             $table->timestamp('closes_at');
             $table->timestamps();
