@@ -15,7 +15,10 @@
         <div class="col-6">
             <p>Bidded <span id="user-bid-count">0</span> Times</p>
             <p>Remaining Bids: <span id="user-bid-remainder">0</span></p>
-            <button class="btn btn-outline-primary" id="btn--bid">
+            <button
+                class="btn @empty($isWinning) btn-danger @else btn-success @endempty "
+                id="btn--bid"
+            >
                 <span id="user-raffle-status">Losing</span>:
                 <span id="user-raffle-action">Place Bid</span>
             </button>
