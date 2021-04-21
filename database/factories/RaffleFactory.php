@@ -10,18 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class RaffleFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Raffle::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition(): array
     {
         return [
@@ -39,11 +29,7 @@ class RaffleFactory extends Factory
         ]);
     }
 
-    /**
-     * @param User|int $user
-     * @return $this
-     */
-    public function wonBy($user, bool $randomise): self
+    public function wonBy(User|int $user, bool $randomise): self
     {
         if ($user instanceof User) {
             $user = $user->id;
