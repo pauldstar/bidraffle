@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -31,6 +32,15 @@ class Raffle extends Model
             ->select('pre_count + post_count AS total_count')
             ->orderByDesc('total_count')
             ->latest('updated_at');
+    }
+
+    public function scopeWithBidder(Builder $query, User|int|string $user = null)
+    {
+        $user = is_object($user) ? $user->id : $user;
+
+        $user && $query->with([
+            'bidders' => fn ($query) => $query->where('user_id', $user)
+        ]);
     }
 
     public function getOriginalClosesAtAttribute()
