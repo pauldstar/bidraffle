@@ -1,4 +1,5 @@
 initPopover();
+initToastTriggerViaLivewire();
 
 /*
 * FUNCTIONS
@@ -17,4 +18,10 @@ function initPopover() {
     popoverTriggerList.map(function (popoverTriggerEl) {
         return new bootstrap.Popover(popoverTriggerEl)
     });
+}
+
+function initToastTriggerViaLivewire() {
+    window.Livewire.on('trigger-toast', (toast) => {
+        Toast.show(toast.mode, toast.message);
+    })
 }
