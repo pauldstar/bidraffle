@@ -82,13 +82,13 @@ class Raffle extends BaseComponent
     {
         return $this->hasBid
             ? ($this->isWinning ? 'success' : 'danger')
-            : 'primary';
+            : 'info';
     }
 
     public function getBidButtonStatusProperty(): string
     {
         return $this->hasBid
             ? ($this->isWinning ? 'Winning' : 'Losing')
-            : 'Join';
+            : 'Enter';
     }
 }
