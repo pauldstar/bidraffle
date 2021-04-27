@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @mixin IdeHelperRaffle
@@ -43,8 +44,23 @@ class Raffle extends Model
         ]);
     }
 
-    public function getOriginalClosesAtAttribute()
+    public function getOriginalClosesAtAttribute(): Carbon
     {
         return $this->created_at->addDay();
+    }
+
+    public function getClosedAttribute(): bool
+    {
+        return $this->closes_at->isPast();
+    }
+
+    public function getOngoingAttribute(): bool
+    {
+        return $this->closes_at->isFuture();
+    }
+
+    public function getInEndZoneAttribute(): bool
+    {
+        return $this->ongoing && $this->original_closes_at->isPast();
     }
 }
