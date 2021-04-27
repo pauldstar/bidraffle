@@ -11,4 +11,11 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class Bid extends Pivot
 {
     use HasFactory;
+
+    protected $table = 'bids';
+
+    public function getExpiredAttribute(): bool
+    {
+        return $this->post_count === $this->pre_count;
+    }
 }
