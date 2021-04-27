@@ -1,28 +1,15 @@
 <?php
 
-namespace Tests\Feature\Services;
+namespace Tests\Feature\Http\Livewire;
 
-use App\Http\Controllers\RaffleController;
-use App\Models\Bid;
 use App\Models\Raffle;
 use App\Models\User;
-use App\Services\RaffleService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use ReflectionException;
-use Tests\ReflectionHelper;
 use Tests\TestCase;
 
-class RaffleServiceTest extends TestCase
+class RaffleTest extends TestCase
 {
     use DatabaseTransactions;
-
-    private RaffleService $service;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = new RaffleService();
-    }
 
     public function testPreviousUserRaffles()
     {
@@ -35,7 +22,9 @@ class RaffleServiceTest extends TestCase
             ->wonBy($user, true)
             ->create();
 
-        $raffles = $this->service->previous();
+        $livewire = new \App\Http\Livewire\Raffle();
+
+        $raffles = $livewire->previousRaffles();
 
         $raffles->get('won')->each(
             fn (Raffle $raffle) => $this->assertEquals($user->id, $raffle->winner_id)
@@ -48,9 +37,12 @@ class RaffleServiceTest extends TestCase
 
     public function testRetrievingCurrentOrNewRaffle()
     {
+        $livewire = new \App\Http\Livewire\Raffle();
+
         $raffle = Raffle::factory()->expired()->create();
-        $newRaffle = $this->service->current();
+        $newRaffle = $livewire->currentRaffle();
+
         $this->assertNotEquals($raffle->id, $newRaffle->id);
-        $this->assertEquals($newRaffle->id, $this->service->current()->id);
+        $this->assertEquals($newRaffle->id, $livewire->currentRaffle()->id);
     }
 }
