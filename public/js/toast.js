@@ -3,14 +3,20 @@ const Toast = (_ => {
         $toastText = document.getElementById('app-toast-text'),
         bsToast = new bootstrap.Toast($toast);
 
-    function show(msg, mode) {
-        $toast.classList.add('bg-' + mode);
+    function modeColor(mode) {
+        return mode === 'error' ? 'danger' : mode;
+    }
+
+    function show(mode, msg) {
+        let color = modeColor(mode);
+
+        $toast.classList.add('bg-' + color);
         $toastText.innerHTML = msg;
 
         bsToast.show();
 
         let removeClass = _ => {
-            $toast.classList.remove('bg-' + mode);
+            $toast.classList.remove('bg-' + color);
             $toast.removeEventListener('hidden.bs.toast', removeClass);
         };
 
@@ -18,9 +24,10 @@ const Toast = (_ => {
     }
 
     return {
-        success: msg => show(msg, 'success'),
-        error: msg => show(msg, 'danger'),
-        warning: msg => show(msg, 'warning'),
-        info: msg => show(msg, 'info')
+        success: msg => show('success', msg),
+        error: msg => show('error', msg),
+        warning: msg => show('warning', msg),
+        info: msg => show('info', msg),
+        show: (mode, msg) => show(mode, msg),
     };
 })();
