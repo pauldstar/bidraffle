@@ -1,15 +1,13 @@
-@extends('layouts.app')
-
 @section('title') Play @endsection
 
-@section('content')
+<div>
     <section class="container">
         @include('raffle.dashboard')
         @include('raffle.ad')
     </section>
 
     @includeWhen(auth()->check(), 'raffle.previous')
-@endsection
+</div>
 
 @push('body-scripts')
     <script src="{{ asset('js/raffle.js') }}"></script>

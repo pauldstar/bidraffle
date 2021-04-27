@@ -25,14 +25,15 @@
 
 @include('partials.header')
 
-@yield('content')
+{{ $slot }}
 
 <x-toast></x-toast>
 
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/toast.js') }}"></script>
-
 @livewireScripts
+
+<script src="{{ asset('js/toast.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+
 @stack('body-scripts')
 </body>
 </html>
