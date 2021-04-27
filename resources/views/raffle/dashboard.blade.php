@@ -17,6 +17,7 @@
         <button
             class="btn btn-{{ $this->bidButtonColor }}"
             id="btn--bid"
+            wire:click="bid"
         >
             <span id="user-raffle-status">{{ $this->bidButtonStatus }}</span>:
             <span id="user-raffle-action">Place Bid</span>
