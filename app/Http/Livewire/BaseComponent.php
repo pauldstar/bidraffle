@@ -31,6 +31,6 @@ class BaseComponent extends Component
 
     private function toast(string $mode, string $message): void
     {
-        $this->emit('trigger-toast', ['mode' => $mode, 'message' => $message]);
+        $this->emit('trigger-toast', $mode, $message);
     }
 }
