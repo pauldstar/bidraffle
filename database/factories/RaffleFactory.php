@@ -29,6 +29,14 @@ class RaffleFactory extends Factory
         ]);
     }
 
+    public function endZone(): self
+    {
+        return $this->state([
+            'created_at' => Carbon::yesterday(),
+            'closes_at' => Carbon::now()->addHour()
+        ]);
+    }
+
     public function wonBy(User|int $user, bool $randomise): self
     {
         if ($user instanceof User) {
