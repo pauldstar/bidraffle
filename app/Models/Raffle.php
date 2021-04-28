@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -48,6 +49,14 @@ class Raffle extends Model
             ->first();
     }
 
+    /**
+     * User that won the raffle
+     *
+     * @return BelongsTo
+     */
+    public function winner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'winner_id');
     }
 
     public function scopeWithBidder(Builder $query, User|int|string $user = null)
