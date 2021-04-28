@@ -21,7 +21,7 @@ function initPopover() {
 }
 
 function initToastTriggerViaLivewire() {
-    window.Livewire.on('trigger-toast', (toast) => {
-        Toast.show(toast.mode, toast.message);
-    })
+    window.Livewire.on('trigger-toast', (mode, message) => {
+        Toast.show(mode, message);
+    });
 }
