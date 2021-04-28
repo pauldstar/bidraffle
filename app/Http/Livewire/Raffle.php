@@ -50,7 +50,7 @@ class Raffle extends BaseComponent
                 $bid->increment($this->raffle->in_end_zone ? 'post_count' : 'pre_count');
             });
 
-            $this->successToast('Bid placed');
+            $this->successToast(__('raffle.bid_successful'));
         } catch (AuthorizationException $e) {
             $this->errorToast($e->getMessage());
         }
