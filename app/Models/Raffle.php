@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @mixin IdeHelperRaffle
@@ -33,12 +34,20 @@ class Raffle extends Model
             ->withTimestamps();
     }
 
-    public function winningBidder(): BelongsToMany
+    /**
+     * User currently winning the raffle
+     *
+     * @return User
+     */
+    public function getWinningBidderAttribute(): User
     {
         return $this->bidders()
-            ->select('pre_count + post_count AS total_count')
+            ->select(DB::raw('pre_count + post_count AS total_count'))
             ->orderByDesc('total_count')
-            ->latest('updated_at');
+            ->latest('bids.updated_at')
+            ->first();
+    }
+
     }
 
     public function scopeWithBidder(Builder $query, User|int|string $user = null)

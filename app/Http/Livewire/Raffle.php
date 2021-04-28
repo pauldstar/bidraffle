@@ -75,7 +75,7 @@ class Raffle extends BaseComponent
     {
         return $this->raffle->winner_id
             ? $this->raffle->winner_id === Auth::id()
-            : $this->raffle->winningBidder?->id === Auth::id();
+            : $this->raffle->winning_bidder?->id === Auth::id();
     }
 
     public function getBidButtonColorProperty(): string
