@@ -2,17 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Concerns\AsPivot;
 
 /**
  * @mixin IdeHelperBid
  */
-class Bid extends Pivot
+class Bid extends Model
 {
-    use HasFactory;
+    use AsPivot;
 
     protected $table = 'bids';
+
+    protected $fillable = [
+        'raffle_id',
+        'user_id',
+        'pre_count',
+        'post_count'
+    ];
 
     public function getExpiredAttribute(): bool
     {
