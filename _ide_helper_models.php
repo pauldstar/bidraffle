@@ -14,12 +14,25 @@ namespace App\Models{
 /**
  * App\Models\Bid
  *
- * @property-read int $pre_count
- * @property-read int $post_count
+ * @mixin IdeHelperBid
+ * @property int $id
+ * @property int $raffle_id
+ * @property int $user_id
+ * @property int $pre_count
+ * @property int $post_count
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read bool $expired
  * @method static \Illuminate\Database\Eloquent\Builder|Bid newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Bid newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Bid query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Bid whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bid whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bid wherePostCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bid wherePreCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bid whereRaffleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bid whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bid whereUserId($value)
  */
 	class IdeHelperBid extends \Eloquent {}
 }
@@ -31,7 +44,7 @@ namespace App\Models{
  * @mixin IdeHelperRaffle
  * @property int $id
  * @property string $uuid
- * @property int $bids
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Bid[] $bids
  * @property int|null $winner_id
  * @property int $claimed
  * @property Carbon $closes_at
@@ -39,12 +52,13 @@ namespace App\Models{
  * @property Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $bidders
  * @property-read int|null $bidders_count
+ * @property-read int|null $bids_count
  * @property-read bool $closed
  * @property-read bool $in_end_zone
  * @property-read bool $ongoing
  * @property-read Carbon $original_closes_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $winningBidder
- * @property-read int|null $winning_bidder_count
+ * @property-read \App\Models\User $winning_bidder
+ * @property-read \App\Models\User|null $winner
  * @method static \Database\Factories\RaffleFactory factory(...$parameters)
  * @method static Builder|Raffle newModelQuery()
  * @method static Builder|Raffle newQuery()
@@ -63,10 +77,7 @@ namespace App\Models{
 }
 
 namespace App\Models{
-
-    use Illuminate\Database\Eloquent\Builder;
-
-    /**
+/**
  * App\Models\User
  *
  * @mixin IdeHelperUser
@@ -80,14 +91,14 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Raffle[] $raffles
  * @property-read int|null $raffles_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
- * @method static Builder|User newModelQuery()
- * @method static Builder|User newQuery()
- * @method static Builder|User query()
- * @method static Builder|User whereCreatedAt($value)
- * @method static Builder|User whereEmail($value)
- * @method static Builder|User whereId($value)
- * @method static Builder|User whereName($value)
- * @method static Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class IdeHelperUser extends \Eloquent {}
 }
