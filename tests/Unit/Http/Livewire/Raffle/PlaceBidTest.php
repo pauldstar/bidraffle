@@ -42,7 +42,9 @@ class PlaceBidTest extends TestCase
     {
         Livewire::test(RaffleComponent::class, ['uuid' => $raffle->uuid])
             ->call('bid')
-            ->assertEmitted('trigger-toast', 'success', __('raffle.bid_successful'));
+            ->assertEmitted('trigger-toast', 'success', __('raffle.bid_successful'))
+            ->assertSet('hasBid', true)
+            ->assertSet('isWinning', true);
     }
 
     public function testCantBidAfterBidExpires()
