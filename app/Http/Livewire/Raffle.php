@@ -68,7 +68,7 @@ class Raffle extends BaseComponent
 
     public function getHasBidProperty(): bool
     {
-        return $this->raffle->bidders->isNotEmpty();
+        return $this->raffle->bidders()->where('user_id', Auth::id())->exists();
     }
 
     public function getIsWinningProperty(): bool
