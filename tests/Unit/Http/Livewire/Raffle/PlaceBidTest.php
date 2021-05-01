@@ -14,6 +14,9 @@ class PlaceBidTest extends TestCase
 {
     use DatabaseTransactions;
 
+    // ToDo: correct user is picked as winning_bidder
+    // ToDo: bid successful post end zone
+
     public function testBidSuccessfulPreEndZone()
     {
         $user = User::factory()->create();
