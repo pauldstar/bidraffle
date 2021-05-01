@@ -43,7 +43,7 @@ class Raffle extends Model
     public function getWinningBidderAttribute(): User
     {
         return $this->bidders()
-            ->select(DB::raw('pre_count + post_count AS total_count'))
+            ->select('users.id', DB::raw('pre_count + post_count AS total_count'))
             ->orderByDesc('total_count')
             ->latest('bids.updated_at')
             ->first();
