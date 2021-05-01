@@ -26,7 +26,7 @@ class Raffle extends BaseComponent
 
     public function currentRaffle(): RaffleModel
     {
-        return RaffleModel::withBidder(Auth::user())->firstOrCreate(
+        return RaffleModel::firstOrCreate(
             ['created_at' => Carbon::today()],
             ['uuid' => Str::uuid(), 'closes_at' => Carbon::tomorrow()]
         );

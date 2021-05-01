@@ -59,15 +59,6 @@ class Raffle extends Model
         return $this->belongsTo(User::class, 'winner_id');
     }
 
-    public function scopeWithBidder(Builder $query, User|int|string $user = null)
-    {
-        $user = is_object($user) ? $user->id : $user;
-
-        $user && $query->with([
-            'bidders' => fn ($query) => $query->where('user_id', $user)
-        ]);
-    }
-
     public function getOriginalClosesAtAttribute(): Carbon
     {
         return $this->created_at->addDay();
