@@ -38,7 +38,10 @@ namespace App\Models{
 }
 
 namespace App\Models{
-/**
+
+    use Illuminate\Database\Eloquent\Builder;
+
+    /**
  * App\Models\Raffle
  *
  * @mixin IdeHelperRaffle
