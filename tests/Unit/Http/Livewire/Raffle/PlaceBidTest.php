@@ -41,7 +41,15 @@ class PlaceBidTest extends TestCase
 
             $endZone && $raffle->update(['created_at' => Carbon::yesterday()]);
 
-            ->assertSet('isWinning', true);
+            $livewire->call('bid')
+                ->assertEmitted('trigger-toast', $status, __($message))
+                ->assertSet('hasBid', true)
+                ->assertSet('isWinning', true);
+
+            $bid->refresh();
+            $this->assertEquals($preCount, $bid->pre_count, 'pre-count');
+            $this->assertEquals($postCount, $bid->post_count, 'post-count');
+        }
     }
 
     public function testCantBidAfterBidExpires()
