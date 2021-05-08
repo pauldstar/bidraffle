@@ -6,6 +6,7 @@ use App\Http\Livewire\Raffle as RaffleComponent;
 use App\Models\Bid;
 use App\Models\Raffle;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -17,7 +18,7 @@ class PlaceBidTest extends TestCase
     // ToDo: correct user is picked as winning_bidder
     // ToDo: bid successful post end zone
 
-    public function testBidSuccessfulPreEndZone()
+    public function testSinglePlayerBids()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -28,25 +29,18 @@ class PlaceBidTest extends TestCase
         $bid = Bid::firstWhere(['user_id' => $user->id, 'raffle_id' => $raffle->id]);
         $this->assertEmpty($bid->pre_count);
 
-        $this->bid($raffle);
-        $bid->refresh();
-        $this->assertEquals(1, $bid->pre_count);
+        $livewire = Livewire::test(RaffleComponent::class, ['uuid' => $raffle->uuid]);
 
-        $this->bid($raffle);
-        $bid->refresh();
-        $this->assertEquals(2, $bid->pre_count);
+        foreach (range(1, 110) as $round) {
+            $endZone = $round > 50 && $round <= 100;
+            $expired = $round > 100;
+            $message = $round <= 100 ? 'raffle.bid_successful' : 'raffle.bid_expired';
+            $status = $round <= 100 ? 'success' : 'error';
+            $preCount = ($endZone || $expired) ? 50 : $round;
+            $postCount = $expired ? 50 : ($endZone ? $round - 50 : 0);
 
-        $this->bid($raffle);
-        $bid->refresh();
-        $this->assertEquals(3, $bid->pre_count);
-    }
+            $endZone && $raffle->update(['created_at' => Carbon::yesterday()]);
 
-    private function bid(Raffle $raffle)
-    {
-        Livewire::test(RaffleComponent::class, ['uuid' => $raffle->uuid])
-            ->call('bid')
-            ->assertEmitted('trigger-toast', 'success', __('raffle.bid_successful'))
-            ->assertSet('hasBid', true)
             ->assertSet('isWinning', true);
     }
 
