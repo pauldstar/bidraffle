@@ -1,11 +1,6 @@
 <div class="row">
     <div class="col-6">
-        <h1
-            id="raffle-timer"
-            class="{{ $raffle->original_closes_at->isPast() ? 'text-danger' : 'text-success' }}"
-            data-closes-at="{{ $raffle->closes_at->timestamp }}"
-            data-original-closes-at="{{ $raffle->original_closes_at->timestamp }}"
-        >--:--:--</h1>
+        <x-timer :raffle="$raffle" />
 
         <h3>$<span id="raffle-pot-amount">0.00</span></h3>
         <p><span id="raffle-bid-count">0</span> Bids</p>
