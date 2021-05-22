@@ -15,18 +15,67 @@ class PlaceBidTest extends TestCase
 {
     use DatabaseTransactions;
 
-    // ToDo: correct user is picked as winning_bidder
-    // ToDo: bid successful post end zone
+    public function testMultiplayerBids()
+    {
+        $users = User::factory(3)->create();
+        $raffle = Raffle::factory()->create();
+        // create bid for each user
+        $bids = [];
+        $bidPreCounts = [];
+        $bidPostCounts = [];
+
+        foreach ($users as $user) {
+            $bids[] = Bid::create(['user_id' => $user->id, 'raffle_id' => $raffle->id]);
+            $bidPreCounts[] = 0;
+            $bidPostCounts[] = 0;
+        }
+
+        foreach (range(1, 30) as $rx => $round) {
+            $endZone = $round > 15;
+            $endZone && $raffle->update(['created_at' => Carbon::yesterday()]);
+
+            $biddingUser = $users[$rx % 3];
+            $this->be($biddingUser);
+
+            Livewire::test(
+                RaffleComponent::class,
+                ['uuid' => $raffle->uuid]
+            )->call('bid');
+
+            foreach ($users as $ux => $user) {
+                $this->be($user);
+                $bid = $bids[$ux];
+
+                $livewire = Livewire::test(
+                    RaffleComponent::class,
+                    ['uuid' => $raffle->uuid]
+                );
+
+                if ($biddingUser->id === $user->id) {
+                    $livewire->assertSet('hasBid', true)->assertSet('isWinning', true);
+                    $bidCount = $endZone ? 'bidPostCounts' : 'bidPreCounts';
+                    $$bidCount[$ux]++;
+                } else {
+                    $livewire->assertSet('isWinning', false);
+                }
+
+                $bid->refresh();
+                $this->assertEquals($bidPreCounts[$ux], $bid->pre_count, 'pre-count');
+                $this->assertEquals($bidPostCounts[$ux], $bid->post_count, 'post-count');
+            }
+
+            sleep(1);
+        }
+    }
 
     public function testSinglePlayerBids()
     {
         $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->be($user);
 
         $raffle = Raffle::factory()->create();
-        $user->raffles()->sync($raffle->id);
 
-        $bid = Bid::firstWhere(['user_id' => $user->id, 'raffle_id' => $raffle->id]);
+        $bid = Bid::create(['user_id' => $user->id, 'raffle_id' => $raffle->id]);
         $this->assertEmpty($bid->pre_count);
 
         $livewire = Livewire::test(RaffleComponent::class, ['uuid' => $raffle->uuid]);
@@ -61,7 +110,7 @@ class PlaceBidTest extends TestCase
             $raffle->id => ['pre_count' => 5, 'post_count' => 5]
         ]);
 
-        $this->actingAs($user);
+        $this->be($user);
 
         Livewire::test(RaffleComponent::class, ['uuid' => $raffle->uuid])
             ->call('bid')
@@ -71,7 +120,7 @@ class PlaceBidTest extends TestCase
     public function testCantStartBiddingEndZoneRaffle()
     {
         $raffle = Raffle::factory()->endZone()->create();
-        $this->actingAs(User::factory()->create());
+        $this->be(User::factory()->create());
 
         Livewire::test(RaffleComponent::class, ['uuid' => $raffle->uuid])
             ->call('bid')
@@ -81,7 +130,7 @@ class PlaceBidTest extends TestCase
     public function testCantBidClosedRaffle()
     {
         $raffle = Raffle::factory()->expired()->create();
-        Livewire::actingAs(User::factory()->create());
+        $this->be(User::factory()->create());
 
         Livewire::test(RaffleComponent::class, ['uuid' => $raffle->uuid])
             ->call('bid')
